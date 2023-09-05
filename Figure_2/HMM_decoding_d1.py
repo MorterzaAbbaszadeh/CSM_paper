@@ -72,7 +72,7 @@ def get_model(adrs):
 db=dlc_db()
 targs=['LID', 'SUM', 'SKF']
 db.select_treatment(targets=targs)
-adrs=r'C:\MachineShop\CSM_paper\data\5p_D2HMM.pkl'
+adrs=r'/home/morteza/dlc_projects/Analysis/Currencodes/data_sets/5p_D2HMM.pkl_atan'
 model=get_model(adrs)
 
 times_df=time_spent(db , model, m_type='d2')

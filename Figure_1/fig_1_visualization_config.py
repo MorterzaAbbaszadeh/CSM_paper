@@ -455,7 +455,7 @@ class visual_config():
 
         _, ax = plt.subplots(4)
         ar=anim.main_ar()[:cut]
-        head_ang=anim.mid_head_angs()[:cut]
+        head_ang=anim.mid_head_angs_atan()[:cut]
         rot_speed=anim.rot_speed()[:cut]
         translate=anim.translation()[:cut]
 

@@ -21,7 +21,7 @@ n_com=2 #number of HMM states
 
 
 def stack_feats(db, cut=7100):
-    return np.vstack((db.main_ar()[:cut], db.mid_head_angs()[:cut], db.rot_speed()[:cut], 
+    return np.vstack((db.main_ar()[:cut], db.mid_head_angs_atan()[:cut], db.rot_speed()[:cut], 
                 db.translation()[:cut])).swapaxes(1,0)
 
 def get_hmm_features(db, t_p):
@@ -57,12 +57,12 @@ feats=get_hmm_features(db, t_p)
 
 #%%
 d1_model=train_d1_hmm(feats, n_com=2)
-with open("5p_D1HMM.pkl", "wb") as file: pickle.dump(d1_model, file)
+with open("5p_D1HMM_atan.pkl", "wb") as file: pickle.dump(d1_model, file)
 
 
 
 # %% train and save D2model
 d2_model=train_d2_hmm(feats, n_com=2)
-with open("5p_D2HMM.pkl", "wb") as file: pickle.dump(d2_model, file) 
+with open("5p_D2HMM.pkl_atan", "wb") as file: pickle.dump(d2_model, file) 
 
 # %%

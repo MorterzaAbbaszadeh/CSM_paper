@@ -6,7 +6,7 @@ class dlc_db():
 
     def __init__(self):
 
-        self.pth=r'C:\MachineShop\CSM_paper\data\5p_d_base.npy'
+        self.pth=r'/home/morteza/dlc_projects/Analysis/Currencodes/data_sets/5p_d_base.npy'
         self.t_ps= ['10','20','30','40','50','60','70', '80']
         with open(self.pth, 'rb') as f:
             self.db=np.load(f, allow_pickle=True)[()]
@@ -53,6 +53,11 @@ class dlc_db():
     def mid_head_angs(self):
         return kin.thet_head(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
                              self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)
+
+    def mid_head_angs_atan(self):
+        return kin.thet_head_atan(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
+                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)
+
 
     def main_ar(self):
         return kin.ar(self.x_tail, self.y_tail, self.xm_head, self.ym_head)

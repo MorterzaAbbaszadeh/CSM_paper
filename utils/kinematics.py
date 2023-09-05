@@ -106,6 +106,32 @@ def thet_head(x1,y1,x2,y2,x3,y3,x4,y4):         #1:tail, 2:mid_head, 3 HeadR, 4:
         
     return sgn.savgol_filter(sm_head, 45, 4)[50:-50]
 
+def null_dperiodic(theta):
+
+    for i, tet in enumerate(theta):
+        if tet > 180: theta[i]-=360
+        elif tet <= -180: theta[i]+=360
+
+    return theta
+
+
+def thet_head_atan(x1,y1,x2,y2,x3,y3,x4,y4):         # 1:mid1, 2:mid_head, 3:rhead, 4:lhead
+    
+    
+    xes=x2-x1                 #head
+    yes=y2-y1
+    
+    xno=x4-x3
+    yno=y4-y3                 #head vector
+
+
+    thet_head=np.arctan2(xes, yes)*57.32    
+    thet_should=np.arctan2(xno, yno)*57.32   #(abs(dotp/(si_u*si_v)))*57.32 
+    thet=null_dperiodic(thet_should-thet_head)
+    sm_head=np.pad(thet, 50, 'edge')                #pad the signal by its edge
+        
+    return thet #sgn.savgol_filter(sm_head, 45, 4)[50:-50]
+
 
 
 
