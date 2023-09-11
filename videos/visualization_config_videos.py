@@ -157,145 +157,160 @@ class visual_config():
         return ax
 
 
-    '''
+    def visualize_phis(self, ax, anim, strt, fini, gap=50): #db > after get_anim
 
-    def visualize_ts_d2m(self, ax, dct,  ID_n, time_point, strt, fini, fetch, model_d1, cut, fps):
-
-        head_ang, ar, rot_speed, translate=fetch.time_srs(dct, ID_n,  time_point) 
-        features=np.vstack(([ar[:cut], head_ang[:cut], rot_speed[:cut], translate[:cut]])).swapaxes(1,0)
-
-        d1_labels=model_d1.predict(features[:,2:])
-
-        time=np.linspace(0,cut, cut)/fps
-        rot_speed=features[:,1]
-        translate=features[:,3]
+        head_ang=anim.mid_head_angs_atan()
+        mid_ang_1=anim.mid_mid_angs_atan()
+        mid_ang_2=anim.tail_mid_angs_atan()
 
         label_loc=[-0.08, 0.5]
 
-    
-
-
-
-        ax[0]=self.segment_colors(ax[0], translate, time, d1_labels, recpt='d1', lw=2)
-        ax[0].set_ylabel(r'Tr.', fontdict=self.label_font)
+        ax[0].plot(head_ang[:fini], color='r', lw=2)
+        ax[0].set_ylabel(r'Phi', fontdict=self.label_font)
         ax[0].yaxis.set_label_coords(-.1, .5)
-        ax[0].set_xlim(strt, fini)
-        ax[0].set_ylim(0, 7)
+        ax[0].set_xlim(strt, fini+gap)
+        #ax[0].set_ylim(0, 100)
         ax[0].tick_params(bottom=False, top=False, left=True, right=False)
         ax[0].set_xticks([], [])
         ax[0].set_yticks([], [])
         ax[0].patch.set_visible(False)
         sns.despine(top=True, bottom=True, right=True, left=True, ax=ax[0])
 
-        ax[1]=self.segment_colors(ax[1], rot_speed, time, d1_labels, recpt='d1', lw=2)
-        ax[1].set_ylabel(r'd$\theta$/dt', fontdict=self.label_font)
+        ax[1].plot(mid_ang_1[:fini], color='r', lw=2)
+        ax[1].set_ylabel(r'Phi_mid1', fontdict=self.label_font)
         ax[1].yaxis.set_label_coords(-.1, .5)
         ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
-        ax[1].set_xlim(strt, fini)
-        ax[1].set_ylim(0, 100)
+        ax[1].set_xlim(strt, fini+gap)
+        #ax[1].set_ylim(80, 120)
         ax[1].set_xlabel('')
         ax[1].set_xticks([], [])
         ax[1].set_yticks([], [])
         ax[1].patch.set_visible(False)
         sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[1])
-
-
+        
+        ax[2].plot(mid_ang_2[:fini], color='r', lw=2)
+        ax[2].set_ylabel(r'Phi_mid2', fontdict=self.label_font)
+        ax[2].yaxis.set_label_coords(-.1, .5)
+        ax[2].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[2].set_xlim(strt, fini+gap)
+        #ax[2].set_ylim(80, 120)
+        ax[2].set_xlabel('')
+        ax[2].set_xticks([], [])
+        ax[2].set_yticks([], [])
+        ax[2].patch.set_visible(False)
+        sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[2])
 
         return ax
-    
+
+    def visualize_ars(self, ax, anim, strt, fini, gap=50): #db > after get_anim
 
 
-
-
-
-
-
-#################    
-    def visualize_ts_state_d1(self, ax, dct,  ID_n, time_point, strt, fini, fetch, model_d1, cut, fps):
-
-        head_ang, ar, rot_speed, translate=fetch.time_srs(dct, ID_n,  time_point) 
-        features=np.vstack(([ar[:cut], head_ang[:cut], rot_speed[:cut], translate[:cut]])).swapaxes(1,0)
-
-        d1_labels=model_d1.predict(features[:,2:])
-
-        time=np.linspace(0,cut, cut)/fps
-        rot_speed=features[:,1]
-        translate=features[:,3]
-
+        main_ar=anim.main_ar()
+        mid_ar=anim.mid_ar()
         label_loc=[-0.08, 0.5]
 
-    
-
-
-
-        ax[0]=self.segment_colors(ax[0], translate, time, d1_labels, recpt='d1', lw=2)
-        ax[0].set_ylabel(r'Tr.', fontdict=self.label_font)
+        ax[0].plot(main_ar[:fini], color='r', lw=2)
+        ax[0].set_ylabel(r'main R', fontdict=self.label_font)
         ax[0].yaxis.set_label_coords(-.1, .5)
-        ax[0].set_xlim(strt, fini)
-        ax[0].set_ylim(0, 7)
+        ax[0].set_xlim(strt, fini+gap)
+        #ax[0].set_ylim(0, 100)
         ax[0].tick_params(bottom=False, top=False, left=True, right=False)
         ax[0].set_xticks([], [])
         ax[0].set_yticks([], [])
         ax[0].patch.set_visible(False)
         sns.despine(top=True, bottom=True, right=True, left=True, ax=ax[0])
 
-        ax[1]=self.segment_colors(ax[1], rot_speed, time, d1_labels, recpt='d1', lw=2)
-        ax[1].set_ylabel(r'd$\theta$/dt', fontdict=self.label_font)
+        ax[1].plot(mid_ar[:fini], color='r', lw=2)
+        ax[1].set_ylabel(r'mid R', fontdict=self.label_font)
         ax[1].yaxis.set_label_coords(-.1, .5)
         ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
-        ax[1].set_xlim(strt, fini)
-        ax[1].set_ylim(0, 100)
+        ax[1].set_xlim(strt, fini+gap)
+        #ax[1].set_ylim(80, 120)
         ax[1].set_xlabel('')
         ax[1].set_xticks([], [])
         ax[1].set_yticks([], [])
         ax[1].patch.set_visible(False)
         sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[1])
-
-
+    
 
         return ax
-    
-    
-    def visualize_ts_state_d2(self, ax, dct,  ID_n, time_point, strt, fini, fetch, model_d2, cut, fps):
 
-        head_ang, ar, rot_speed, translate=fetch.time_srs(dct, ID_n,  time_point) 
-        features=np.vstack(([ar[:cut], head_ang[:cut], rot_speed[:cut], translate[:cut]])).swapaxes(1,0)
 
-        d_labels=model_d2.predict(features[:,2:])
 
-        time=np.linspace(0,cut, cut)/fps
-        ar=features[:,0]
-        head_ang=features[:,1]
+    def visualize_trans(self, ax, anim, strt, fini, gap=50): #db > after get_anim
 
+
+        main_tr=anim.translation()
+        mid_tr=anim.mid_translation()
         label_loc=[-0.08, 0.5]
 
-
-
-        ax[0]=self.segment_colors(ax[0], ar, time, d_labels, recpt='d2', lw=2)
-        ax[0].set_ylabel(r'R.  ', fontdict=self.label_font)
+        ax[0].plot(main_tr[:fini], color='r', lw=2)
+        ax[0].set_ylabel(r'main Tr', fontdict=self.label_font)
         ax[0].yaxis.set_label_coords(-.1, .5)
-        ax[0].set_xlim(strt, fini)
-        ax[0].set_ylim(0, 1.7)
+        ax[0].set_xlim(strt, fini+gap)
+        #ax[0].set_ylim(0, 100)
         ax[0].tick_params(bottom=False, top=False, left=True, right=False)
         ax[0].set_xticks([], [])
         ax[0].set_yticks([], [])
         ax[0].patch.set_visible(False)
         sns.despine(top=True, bottom=True, right=True, left=True, ax=ax[0])
 
-        ax[1]=self.segment_colors(ax[1], head_ang, time, d_labels, recpt='d2', lw=2)
-        ax[1].set_ylabel(r'$\Phi$', fontdict=self.label_font)
+        ax[1].plot(mid_tr[:fini], color='r', lw=2)
+        ax[1].set_ylabel(r'mid Tr', fontdict=self.label_font)
         ax[1].yaxis.set_label_coords(-.1, .5)
         ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
-        ax[1].set_xlim(strt, fini)
-        ax[1].set_ylim(0, 100)
+        ax[1].set_xlim(strt, fini+gap)
+        #ax[1].set_ylim(80, 120)
+        ax[1].set_xlabel('')
+        ax[1].set_xticks([], [])
+        ax[1].set_yticks([], [])
+        ax[1].patch.set_visible(False)
+        sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[1])
+    
+
+        return ax
+
+    def visualize_rot_speed(self, ax, anim, strt, fini, gap=50): #db > after get_anim
+
+
+        rot_speed=anim.rot_speed()
+        head_rot_speed=anim.head_rot_speed()
+        mid_rot_speed=anim.mid_rot_speed()
+        label_loc=[-0.08, 0.5]
+
+        ax[0].plot(rot_speed[:fini], color='r', lw=2)
+        ax[0].set_ylabel(r'rot speed', fontdict=self.label_font)
+        ax[0].yaxis.set_label_coords(-.1, .5)
+        ax[0].set_xlim(strt, fini+gap)
+        #ax[0].set_ylim(0, 100)
+        ax[0].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[0].set_xticks([], [])
+        ax[0].set_yticks([], [])
+        ax[0].patch.set_visible(False)
+        sns.despine(top=True, bottom=True, right=True, left=True, ax=ax[0])
+
+        ax[1].plot(head_rot_speed[:fini], color='r', lw=2)
+        ax[1].set_ylabel(r'head Rot speed', fontdict=self.label_font)
+        ax[1].yaxis.set_label_coords(-.1, .5)
+        ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[1].set_xlim(strt, fini+gap)
+        #ax[1].set_ylim(80, 120)
         ax[1].set_xlabel('')
         ax[1].set_xticks([], [])
         ax[1].set_yticks([], [])
         ax[1].patch.set_visible(False)
         sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[1])
 
-
+        ax[2].plot(mid_rot_speed[:fini], color='r', lw=2)
+        ax[2].set_ylabel(r'mid_rot_speed', fontdict=self.label_font)
+        ax[2].yaxis.set_label_coords(-.1, .5)
+        ax[2].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[2].set_xlim(strt, fini+gap)
+        #ax[2].set_ylim(80, 120)
+        ax[2].set_xlabel('')
+        ax[2].set_xticks([], [])
+        ax[2].set_yticks([], [])
+        ax[2].patch.set_visible(False)
+        sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[2])
 
         return ax
-    
-    '''

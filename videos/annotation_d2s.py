@@ -20,7 +20,7 @@ warnings.simplefilter('ignore', category=DeprecationWarning)
 
 from dlc_iteration import dlc_db
 n_frames=700
-strt=50
+strt=500
 
 
 
@@ -32,9 +32,81 @@ print(db.keys[6])
 
 
 
-video_path='/home/morteza/Desktop/per_cont/LID214042310120.mp4'
+video_path='/home/morteza/Desktop/per_cont/LID272022160720.mp4'
 cap = cv2.VideoCapture(video_path)
 cap.set(1, strt)
+
+
+
+
+# %% phis 3 axes
+
+
+fig = plt.figure(figsize=(10, 6))
+#spec2 = gridspec.GridSpec(ncols=5, nrows=5, figure=fig)
+camera = Camera(fig)
+
+
+i = 0
+while i < n_frames:  # video frame by frame
+
+    _, frame = cap.read()
+    cv2_im = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    frame_fig = Image.fromarray(frame)
+    ax_im = fig.add_axes([0, 0, 1, 1])
+    ax_im.imshow(frame, aspect='equal')
+    ax_im.axis('off')
+
+    
+    fini=strt+i
+
+    ax0 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
+    ax1 = fig.add_axes([0.45, 0.4, 0.3, 0.1])
+    ax2 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
+    [ax0, ax1, ax2] = vs_config.visualize_phis([ax0, ax1, ax2], db, strt, fini)
+    i = i+1
+
+    camera.snap()
+
+
+animation = camera.animate()
+animation.save('phi_LID_21_40.mp4', fps=10, dpi=360)
+
+
+
+# %% ars
+
+fig = plt.figure(figsize=(10, 6))
+#spec2 = gridspec.GridSpec(ncols=5, nrows=5, figure=fig)
+camera = Camera(fig)
+
+
+i = 0
+while i < n_frames:  # video frame by frame
+
+    _, frame = cap.read()
+    cv2_im = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    frame_fig = Image.fromarray(frame)
+    ax_im = fig.add_axes([0, 0, 1, 1])
+    ax_im.imshow(frame, aspect='equal')
+    ax_im.axis('off')
+
+    
+    fini=strt+i
+
+    ax0 = fig.add_axes([0.45, 0.1, 0.5, 0.1])
+    ax1 = fig.add_axes([0.45, 0.4, 0.5, 0.1])
+    [ax0, ax1] = vs_config.visualize_ars([ax0, ax1], db, strt, fini)
+    i = i+1
+
+    camera.snap()
+
+
+animation = camera.animate()
+animation.save('ar_LID_21_40.mp4', fps=10, dpi=360)
+
+
+# %% Trans
 
 
 fig = plt.figure(figsize=(10, 6))
@@ -57,16 +129,49 @@ while i < n_frames:  # video frame by frame
 
     ax0 = fig.add_axes([0.45, 0.1, 0.5, 0.1])
     ax1 = fig.add_axes([0.45, 0.4, 0.5, 0.1])
-    [ax0, ax1] = vs_config.visualize_ts([ax0, ax1], db, strt, fini)
+    [ax0, ax1] = vs_config.visualize_trans([ax0, ax1], db, strt, fini)
     i = i+1
 
     camera.snap()
 
 
 animation = camera.animate()
-animation.save('LID_21_40_d2_atan.mp4', fps=10, dpi=360)
+animation.save('Tr_LID_21_40.mp4', fps=10, dpi=360)
 
 
-# %%
-print(db.keys[6])
+# %% Rot speed
+
+
+
+fig = plt.figure(figsize=(10, 6))
+#spec2 = gridspec.GridSpec(ncols=5, nrows=5, figure=fig)
+camera = Camera(fig)
+
+
+i = 0
+while i < n_frames:  # video frame by frame
+
+    _, frame = cap.read()
+    cv2_im = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    frame_fig = Image.fromarray(frame)
+    ax_im = fig.add_axes([0, 0, 1, 1])
+    ax_im.imshow(frame, aspect='equal')
+    ax_im.axis('off')
+
+    
+    fini=strt+i
+
+    ax0 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
+    ax1 = fig.add_axes([0.45, 0.4, 0.3, 0.1])
+    ax2 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
+    [ax0, ax1, ax2] = vs_config.visualize_rot_speed([ax0, ax1, ax2], db, strt, fini)
+    i = i+1
+
+    camera.snap()
+
+
+animation = camera.animate()
+animation.save('rot_speed_LID_21_40.mp4', fps=10, dpi=360)
+
+
 # %%

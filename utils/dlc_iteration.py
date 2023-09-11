@@ -38,6 +38,9 @@ class dlc_db():
         self.x_mid1=self.db[self.ky]['traces'][t_p]['mid1']
         self.y_mid1=self.db[self.ky]['traces'][t_p]['mid1.1']
 
+        self.x_mid2=self.db[self.ky]['traces'][t_p]['mid2']
+        self.y_mid2=self.db[self.ky]['traces'][t_p]['mid2.1']
+
         self.x_tail=self.db[self.ky]['traces'][t_p]['tail']
         self.y_tail=self.db[self.ky]['traces'][t_p]['tail.1']
 
@@ -58,15 +61,37 @@ class dlc_db():
         return kin.thet_head_atan(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
                              self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)
 
+    def mid_mid_angs_atan(self):
+        return kin.thet_head_atan(self.x_mid2, self.y_mid2, self.x_mid1, self.y_mid1,
+                                self.x_mid1, self.y_mid1, self.xm_head, self.ym_head)
+
+    def tail_mid_angs_atan(self):
+        return kin.thet_head_atan(self.x_tail, self.y_tail,self.x_mid2, self.y_mid2, 
+                                self.x_mid2, self.y_mid2, self.x_mid1, self.y_mid1)
+
+
+
+    
+    def rot_speed(self):
+        return kin.smooth_diff(kin.angs(self.xm_head, self.ym_head, self.x_tail, self.y_tail))
+    
+    def head_rot_speed(self):
+        return kin.smooth_diff(kin.angs(self.x_lhead, self.y_lhead,self.x_rhead, self.y_rhead))
+
+    def mid_rot_speed(self):
+        return kin.smooth_diff(kin.angs(self.x_mid1, self.y_mid1,self.x_mid2, self.y_mid2))
+
+
+
 
     def main_ar(self):
         return kin.ar(self.x_tail, self.y_tail, self.xm_head, self.ym_head)
-    
-    def rot_angs(self):
-        return kin.angs(self.xm_head, self.ym_head, self.x_tail, self.y_tail)
-    
-    def rot_speed(self):
-        return kin.smooth_diff(self.rot_angs())
+
+    def mid_ar(self):
+        return kin.ar(self.x_mid2, self.y_mid2, self.xm_head, self.ym_head)
     
     def translation(self):
         return kin.translation(self.xm_head, self.ym_head)
+
+    def mid_translation(self):
+        return kin.translation(self.x_mid1, self.y_mid1)

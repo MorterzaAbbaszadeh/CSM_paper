@@ -78,111 +78,6 @@ class visual_config():
 
 
 
-
-
-
-    '''                    Kinematic Plots                           
-
-
-    def kinematic_box(self, ax, xlabel, ylabel, legend=False):
-        
-
-        ax.set_xlim(-0.5, 8.5)
-        
-        ax.set_xlabel(xlabel, fontdict=self.label_font)
-        ax.set_ylabel(ylabel, fontdict=self.label_font)
-
-
-        sns.despine(ax=ax)
-        
-        
-        if isinstance(legend, dict):
-            plt.legend(**legend)
-        else:
-            ax.legend([],[], frameon=False, fontsize=self.tick_font['size'])
-
-         #make this local
-    
-        return ax
-
-
-    def kinematic_lines(self, ax, xlabel, ylabel, legend=False):
-        
-
-        ax.set_xlim(-0.5, 8.5)
-        
-        ax.set_xlabel(xlabel, fontdict=self.label_font)
-        ax.set_ylabel(ylabel, fontdict=self.label_font)
-
-
-        sns.despine(ax=ax)
-        
-        
-        if isinstance(legend, dict):
-            plt.legend(**legend)
-        else:
-            ax.legend([],[], frameon=False, fontsize=self.tick_font['size'])
-
-         #make this local
-
-        sns.set_palette(self.compare_colors_sr2)
-            
-        return ax
-
-
-
-    '''
-
-    '''                        HMM Plots                                     
-
-
-
-    def hmm_plots(self, ax, xlabel, ylabel, xlim_right=8.5, legend=False):
-        
-
-        ax.set_xlim(-0.5, xlim_right)
-        
-        ax.set_xlabel(xlabel, fontdict=self.label_font)
-        ax.set_ylabel(ylabel, fontdict=self.label_font)
-
-
-        sns.despine(ax=ax)
-        
-        if isinstance(legend, dict):
-            plt.legend(**legend)
-        else:
-            ax.legend([],[], frameon=False, fontsize=self.tick_font['size'])
-
-         #make this local
-
-            
-        return ax
-
-
-
-    def barplots(self, ax, xlabel, ylabel, legend=False):
-    
-
-        ax.set_xlim(-0.5, 8.5)
-        
-        ax.set_xlabel(xlabel, fontdict=self.label_font)
-        ax.set_ylabel(ylabel, fontdict=self.label_font)
-
-
-        sns.despine(ax=ax)
-        
-        if isinstance(legend, dict):
-            plt.legend(**legend)
-        else:
-            ax.legend([],[], frameon=False, fontsize=self.tick_font['size'])
-
-            #make this local
-
-            
-            return ax
-
-    '''
-
     #messy with alot of constants
     def head_polar_plot(self,ax, head_ang, ar,lower_cut, upper_cut, treatment, alph=0.1 ):
         
@@ -250,206 +145,152 @@ class visual_config():
 
             
         return ax
+    
+
+    '''                        Time series                                 '''
 
 
+    def visualize_phis(self, anim, strt, fini, cut, fps, treat): #db > after get_anim
 
-    '''                       Time Series Plots                            
-
-
-
-    def visualize_ts(self, ax, dct,  ID_n, time_point,strt, fini, fetch, model, cut, fps, treat ):
-
-
-        
-        head_ang, ar, rot_speed, translate=fetch.time_srs(dct, ID_n,  time_point)
-        features=np.vstack(([ar[:cut], rot_speed[:cut], head_ang[:cut], translate[:cut]])).swapaxes(1,0)
-        
+        _, ax = plt.subplots(3)
+        head_ang=anim.mid_head_angs_atan()[:cut]
+        mid_ang_1=anim.mid_mid_angs_atan()[:cut]
+        mid_ang_2=anim.tail_mid_angs_atan()[:cut]
 
         time=np.linspace(0,cut, cut)/fps
 
-
-        
-        ar=features[:,0]
-        rot_speed=features[:,1]
-        head_ang=features[:,2]
-        translate=features[:,3]
-
+        #treat=anim.treatment
         label_loc=[-0.08, 0.5]
 
         ax[0].plot(time, head_ang, linewidth=0.9, color=self.treatment_colors[treat])
-        ax[0].set_ylabel(r'$\phi $', fontdict=self.label_font)
+        ax[0].set_ylabel(r'$\phi$', fontdict=self.label_font)
         ax[0].yaxis.set_label_coords(label_loc[0], label_loc[1])
         ax[0].set_xlim(strt, fini)
         ax[0].tick_params(bottom=False, top=False, left=True, right=False)
         ax[0].set_xticklabels([])
         sns.despine(top=True, bottom=True, right=True, ax=ax[0])
 
-
-        ax[1].plot(time, ar, linewidth=0.9, color=self.treatment_colors[treat])
-        ax[1].set_ylabel(r'R', fontdict=self.label_font)
+        ax[1].plot(time, mid_ang_1, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[1].set_ylabel(r'$\phi$ mid1', fontdict=self.label_font)
         ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
         ax[1].set_xlim(strt, fini)
         ax[1].tick_params(bottom=False, top=False, left=True, right=False)
         ax[1].set_xticklabels([])
         sns.despine(top=True, bottom=True, right=True, ax=ax[1])
 
-        ax[2].plot(time, rot_speed, linewidth=0.9, color=self.treatment_colors[treat])
-        ax[2].set_ylabel(r'd$\theta$/dt', fontdict=self.label_font)
+        ax[2].plot(time, mid_ang_2, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[2].set_ylabel(r'$\phi$ mid2', fontdict=self.label_font)
         ax[2].yaxis.set_label_coords(label_loc[0], label_loc[1])
         ax[2].set_xlim(strt, fini)
         ax[2].tick_params(bottom=False, top=False, left=True, right=False)
-        ax[2].set_xticklabels([])
-        sns.despine(top=True, bottom=True, right=True, ax=ax[2])
-
-        ax[3].plot(time, translate, linewidth=0.9, color=self.treatment_colors[treat])
-        ax[3].set_ylabel(r'Tr.', fontdict=self.label_font)
-        ax[3].yaxis.set_label_coords(label_loc[0], label_loc[1])
-        ax[3].set_xlim(strt, fini)
-        ax[3].set_xlabel('Time (sec)', fontdict=self.label_font)
-        sns.despine(top=True, right=True, ax=ax[3])
-
-
-        
-
-        return ax
-
-
-
-
-
-
-    def visualize_ts_state(self, ax, dct,  ID_n, time_point,strt, fini, fetch, model, cut, fps):
-
-
-        
-        head_ang, ar, rot_speed, translate=fetch.time_srs(dct, ID_n,  time_point)
-        features=np.vstack(([ar[:cut], rot_speed[:cut], head_ang[:cut]])).swapaxes(1,0)
-        labels=model.predict(features)
-
-        time=np.linspace(0,cut, cut)/fps
-
-
-
-        ar=features[:,0]
-        rot_speed=features[:,1]
-        head_ang=features[:,2]
-
-        label_loc=[-0.08, 0.5]
-
-        circle_size=1.7
-        inside_lable=1
-
-        ax[0].plot(time, head_ang, linewidth=0.5)
-        ax[0].scatter(time[labels==inside_lable], head_ang[labels==inside_lable],
-                     color=self.compare_colors_sr2[3], s=circle_size, label='in-state')
-        ax[0].scatter(time[labels!=inside_lable], head_ang[labels!=inside_lable], 
-                            color=self.compare_colors_sr2[4], s=circle_size, label='in-state')
-
-        ax[0].set_ylabel(r'$\phi $', fontdict=self.label_font)
-        ax[0].yaxis.set_label_coords(label_loc[0], label_loc[1])
-        ax[0].set_xlim(strt, fini)
-        ax[0].tick_params(bottom=False, top=False, left=True, right=False)
-        ax[0].set_xticklabels([])
-        sns.despine(top=True, bottom=True, right=True, ax=ax[0])
-
-
-        ax[1].plot(time, ar, linewidth=0.5)
-        ax[1].scatter(time[labels==inside_lable], ar[labels==inside_lable],
-                     color=self.compare_colors_sr2[3], s=circle_size, label='in-state')
-        ax[1].scatter(time[labels!=inside_lable], ar[labels!=inside_lable], 
-                            color=self.compare_colors_sr2[4], s=circle_size, label='in-state')
-        
-        ax[1].set_ylabel(r'R', fontdict=self.label_font)
-        ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
-        ax[1].set_xlim(strt, fini)
-        ax[1].tick_params(bottom=False, top=False, left=True, right=False)
-        ax[1].set_xticklabels([])
-        sns.despine(top=True, bottom=True, right=True, ax=ax[1])
-
-
-        ax[2].plot(time, rot_speed, linewidth=0.5)
-        ax[2].scatter(time[labels==inside_lable], rot_speed[labels==inside_lable],
-                     color=self.compare_colors_sr2[3], s=circle_size, label='in-state')
-        ax[2].scatter(time[labels!=inside_lable], rot_speed[labels!=inside_lable], 
-                            color=self.compare_colors_sr2[4], s=circle_size, label='in-state')
-      
-        ax[2].set_ylabel(r'd$\theta$/dt', fontdict=self.label_font)
-        ax[2].yaxis.set_label_coords(label_loc[0], label_loc[1])
-        ax[2].set_xlim(strt, fini)
         ax[2].set_xlabel('Time (sec)', fontdict=self.label_font)
         sns.despine(top=True, right=True, ax=ax[2])
 
 
-        
+
+
+        return ax
+
+    def visualize_ars(self, anim, strt, fini, cut, fps, treat): #db > after get_anim
+
+        _, ax = plt.subplots(2)
+        main_ar=anim.main_ar()[:cut]
+        mid_ar=anim.mid_ar()[:cut]
+
+        time=np.linspace(0,cut, cut)/fps
+
+        #treat=anim.treatment
+        label_loc=[-0.08, 0.5]
+
+        ax[0].plot(time, main_ar, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[0].set_ylabel(r'ar', fontdict=self.label_font)
+        ax[0].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[0].set_xlim(strt, fini)
+        ax[0].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[0].set_xticklabels([])
+        sns.despine(top=True, bottom=True, right=True, ax=ax[0])
+
+
+        ax[1].plot(time, mid_ar, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[1].set_ylabel(r'mid ar', fontdict=self.label_font)
+        ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[1].set_xlim(strt, fini)
+        ax[1].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[1].set_xlabel('Time (sec)', fontdict=self.label_font)
+        sns.despine(top=True, right=True, ax=ax[1])
+
+
+
 
         return ax
 
 
+    def visualize_trans(self, anim, strt, fini, cut, fps, treat): #db > after get_anim
+
+        _, ax = plt.subplots(2)
+        main_tr=anim.translation()[:cut]
+        mid_tr=anim.mid_translation()[:cut]
+
+        time=np.linspace(0,cut, cut)/fps
+
+        #treat=anim.treatment
+        label_loc=[-0.08, 0.5]
+
+        ax[0].plot(time, main_tr, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[0].set_ylabel(r'Tr.', fontdict=self.label_font)
+        ax[0].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[0].set_xlim(strt, fini)
+        ax[0].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[0].set_xticklabels([])
+        sns.despine(top=True, bottom=True, right=True, ax=ax[0])
 
 
-                            
-
-    def state_polar(self, ax, dct,  ID_n, time_point, fetch, model, cut, state, alph):
-
-
-        
-        head_ang, ar, rot_speed, translate=fetch.time_srs(dct, ID_n,  time_point)
-        features=np.vstack(([ar[:cut], rot_speed[:cut], head_ang[:cut]])).swapaxes(1,0)
-        labels=model.predict(features)
+        ax[1].plot(time, mid_tr, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[1].set_ylabel(r'Mid Tr.', fontdict=self.label_font)
+        ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[1].set_xlim(strt, fini)
+        ax[1].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[1].set_xlabel('Time (sec)', fontdict=self.label_font)
+        sns.despine(top=True, right=True, ax=ax[1])
 
 
 
-        inside_lable=1
-        ar=features[:,0]
-        rot_speed=features[:,1]
-        head_ang=features[:,2]
-        head_orientation=(head_ang/57.32)
-
-
-
-        if state==inside_lable:
-            cl=self.compare_colors_sr2[3]
-        else: 
-            cl=self.compare_colors_sr2[4]
-
-        ax.plot( head_orientation[labels==state],ar[labels==state],
-                        ls='', marker='o',color=cl, alpha=alph)
-
-
-        ax.grid(linewidth=1, ls='--')
-
-        ax.set_xticklabels(['270', '', '0', '', '90', '', '180', ''])
-        ax.set_ylim(0,1) #normalized body
-   
-        ax.set_rticks([0, 0.5, 1])
-       
-        ax.spines['polar'].set_visible(False)
 
         return ax
 
-    
+    def visualize_rot_speed(self, anim, strt, fini, cut, fps, treat): #db > after get_anim
+
+        _, ax = plt.subplots(2)
+        rot_speed=anim.rot_speed()[:cut]
+        head_rot_speed=anim.head_rot_speed()[:cut]
+
+        time=np.linspace(0,cut, cut)/fps
+
+        #treat=anim.treatment
+        label_loc=[-0.08, 0.5]
+
+        ax[0].plot(time, rot_speed, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[0].set_ylabel(r'rot_speed', fontdict=self.label_font)
+        ax[0].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[0].set_xlim(strt, fini)
+        ax[0].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[0].set_xticklabels([])
+        sns.despine(top=True, bottom=True, right=True, ax=ax[0])
+
+
+        ax[1].plot(time, head_rot_speed, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[1].set_ylabel(r'Mid Rot Speed', fontdict=self.label_font)
+        ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[1].set_xlim(strt, fini)
+        ax[1].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[1].set_xlabel('Time (sec)', fontdict=self.label_font)
+        sns.despine(top=True, right=True, ax=ax[1])
 
 
 
-    def cluster_bar_plots(self,ax, characters, params):
-        for i in range(len(ax)):
-            param=list(params.keys())[i]
-            sns.barplot(x='Type', y=param,data=characters, palette=self.compare_colors_sr2[3:], errcolor='darkgrey' ,ax=ax[i], ci=95)
-            ax[i].set_xlim(-1, 2)
-            ax[i].set_xticklabels(['in', 'out'],  rotation = 45, fontdict=self.label_font)
-            ax[i].set_ylabel(params[param], fontdict=self.label_font)
-            ax[i].set_xlabel('')
-            if i==1: #specific to cluster vis
-                ax[i].plot([-1, 2], [0, 0], color='k', linestyle='--', alpha=0.5)
-            
-            sns.despine(right=True, top=True, ax=ax[i])
-            plt.tight_layout()
 
         return ax
-    
 
-     '''
-    
 
     def visualize_ts(self, anim, strt, fini, cut, fps, treat): #db > after get_anim
 
