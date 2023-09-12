@@ -207,6 +207,7 @@ class visual_config():
 
         main_ar=anim.main_ar()
         mid_ar=anim.mid_ar()
+        mid2_ar=anim.mid2_ar()
         label_loc=[-0.08, 0.5]
 
         ax[0].plot(main_ar[:fini], color='r', lw=2)
@@ -231,7 +232,18 @@ class visual_config():
         ax[1].set_yticks([], [])
         ax[1].patch.set_visible(False)
         sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[1])
-    
+
+        ax[2].plot(mid2_ar[:fini], color='r', lw=2)
+        ax[2].set_ylabel(r'mid_2 R', fontdict=self.label_font)
+        ax[2].yaxis.set_label_coords(-.1, .5)
+        ax[2].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[2].set_xlim(strt, fini+gap)
+        #ax[1].set_ylim(80, 120)
+        ax[2].set_xlabel('')
+        ax[2].set_xticks([], [])
+        ax[2].set_yticks([], [])
+        ax[2].patch.set_visible(False)
+        sns.despine(top=True, right=True, left=True, bottom=True, ax=ax[2])
 
         return ax
 

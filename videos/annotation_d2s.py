@@ -28,11 +28,11 @@ targs=['LID']
 db=dlc_db()
 db.select_treatment(targets=targs)
 db.get_animal(db.keys[6], '40')
-print(db.keys[6])
+print(db.keys[2])
 
 
 
-video_path='/home/morteza/Desktop/per_cont/LID272022160720.mp4'
+video_path='/home/morteza/Desktop/per_cont/LID264042160720.mp4'
 cap = cv2.VideoCapture(video_path)
 cap.set(1, strt)
 
@@ -74,7 +74,7 @@ animation.save('phi_LID_21_40.mp4', fps=10, dpi=360)
 
 
 
-# %% ars
+# %% ars 3 axes
 
 fig = plt.figure(figsize=(10, 6))
 #spec2 = gridspec.GridSpec(ncols=5, nrows=5, figure=fig)
@@ -94,9 +94,10 @@ while i < n_frames:  # video frame by frame
     
     fini=strt+i
 
-    ax0 = fig.add_axes([0.45, 0.1, 0.5, 0.1])
-    ax1 = fig.add_axes([0.45, 0.4, 0.5, 0.1])
-    [ax0, ax1] = vs_config.visualize_ars([ax0, ax1], db, strt, fini)
+    ax0 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
+    ax1 = fig.add_axes([0.45, 0.4, 0.3, 0.1])
+    ax2 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
+    [ax0, ax1, ax2] = vs_config.visualize_ars([ax0, ax1, ax2], db, strt, fini)
     i = i+1
 
     camera.snap()

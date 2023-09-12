@@ -88,8 +88,14 @@ class dlc_db():
         return kin.ar(self.x_tail, self.y_tail, self.xm_head, self.ym_head)
 
     def mid_ar(self):
-        return kin.ar(self.x_mid2, self.y_mid2, self.xm_head, self.ym_head)
+        return kin.ar(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head)
+
+    def mid2_ar(self):
+        return kin.ar(self.x_mid2, self.y_mid2, self.x_mid1, self.y_mid1)
     
+
+
+
     def translation(self):
         return kin.translation(self.xm_head, self.ym_head)
 
