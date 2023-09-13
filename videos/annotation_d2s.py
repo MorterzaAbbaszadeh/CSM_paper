@@ -27,9 +27,9 @@ strt=500
 targs=['LID']
 db=dlc_db()
 db.select_treatment(targets=targs)
-db.get_animal(db.keys[6], '40')
-print(db.keys[2])
-
+db.get_animal(db.keys[0], '40')
+print(db.keys)
+print(db.keys[0])
 
 
 video_path='/home/morteza/Desktop/per_cont/LID264042160720.mp4'
@@ -60,9 +60,9 @@ while i < n_frames:  # video frame by frame
     
     fini=strt+i
 
-    ax0 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
+    ax2 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
     ax1 = fig.add_axes([0.45, 0.4, 0.3, 0.1])
-    ax2 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
+    ax0 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
     [ax0, ax1, ax2] = vs_config.visualize_phis([ax0, ax1, ax2], db, strt, fini)
     i = i+1
 
@@ -70,11 +70,11 @@ while i < n_frames:  # video frame by frame
 
 
 animation = camera.animate()
-animation.save('phi_LID_21_40.mp4', fps=10, dpi=360)
+animation.save('phi_SKF_20_50.mp4', fps=10, dpi=360)
 
 
 
-# %% ars 3 axes
+# %% ars 2 axes
 
 fig = plt.figure(figsize=(10, 6))
 #spec2 = gridspec.GridSpec(ncols=5, nrows=5, figure=fig)
@@ -96,15 +96,14 @@ while i < n_frames:  # video frame by frame
 
     ax0 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
     ax1 = fig.add_axes([0.45, 0.4, 0.3, 0.1])
-    ax2 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
-    [ax0, ax1, ax2] = vs_config.visualize_ars([ax0, ax1, ax2], db, strt, fini)
+    [ax0, ax1] = vs_config.visualize_ars([ax0, ax1], db, strt, fini)
     i = i+1
 
     camera.snap()
 
 
 animation = camera.animate()
-animation.save('ar_LID_21_40.mp4', fps=10, dpi=360)
+animation.save('ar_SKF_20_50.mp4', fps=10, dpi=360)
 
 
 # %% Trans
@@ -137,7 +136,7 @@ while i < n_frames:  # video frame by frame
 
 
 animation = camera.animate()
-animation.save('Tr_LID_21_40.mp4', fps=10, dpi=360)
+animation.save('Tr_SKF_20_50.mp4', fps=10, dpi=360)
 
 
 # %% Rot speed
@@ -147,6 +146,7 @@ animation.save('Tr_LID_21_40.mp4', fps=10, dpi=360)
 fig = plt.figure(figsize=(10, 6))
 #spec2 = gridspec.GridSpec(ncols=5, nrows=5, figure=fig)
 camera = Camera(fig)
+
 
 
 i = 0
@@ -162,9 +162,9 @@ while i < n_frames:  # video frame by frame
     
     fini=strt+i
 
-    ax0 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
+    ax2 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
     ax1 = fig.add_axes([0.45, 0.4, 0.3, 0.1])
-    ax2 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
+    ax0 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
     [ax0, ax1, ax2] = vs_config.visualize_rot_speed([ax0, ax1, ax2], db, strt, fini)
     i = i+1
 
@@ -172,7 +172,7 @@ while i < n_frames:  # video frame by frame
 
 
 animation = camera.animate()
-animation.save('rot_speed_LID_21_40.mp4', fps=10, dpi=360)
+animation.save('rot_speed_SKF_20_50.mp4', fps=10, dpi=360)
 
 
 # %%

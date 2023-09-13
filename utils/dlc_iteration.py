@@ -55,7 +55,7 @@ class dlc_db():
 
     def mid_head_angs(self):
         return kin.thet_head(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
-                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)
+                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)-90
 
     def mid_head_angs_atan(self):
         return kin.thet_head_atan(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
@@ -92,7 +92,13 @@ class dlc_db():
 
     def mid2_ar(self):
         return kin.ar(self.x_mid2, self.y_mid2, self.x_mid1, self.y_mid1)
-    
+
+    def mean_ar(self):
+        ar1=kin.ar(self.x_mid2, self.y_mid2, self.x_mid1, self.y_mid1)
+        ar2=kin.ar(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head)
+        ar3=kin.ar(self.x_tail, self.y_tail, self.xm_head, self.ym_head)
+        ar4=kin.ar(self.x_mid2, self.y_mid2, self.xm_head, self.ym_head)
+        return np.mean([ar1,ar2,ar3,ar4], axis=0)
 
 
 
