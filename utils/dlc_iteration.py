@@ -55,11 +55,16 @@ class dlc_db():
 
     def mid_head_angs(self):
         return kin.thet_head(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
-                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)-90
+                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)
 
     def mid_head_angs_atan(self):
         return kin.thet_head_atan(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
-                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)
+                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)-90
+    
+    def mid_head_angs(self):
+        return kin.thet_head(self.x_mid1, self.y_mid1, self.xm_head, self.ym_head,
+                             self.x_rhead,self.y_rhead, self.x_lhead, self.y_lhead)-90
+
 
     def mid_mid_angs_atan(self):
         return kin.thet_head_atan(self.x_mid2, self.y_mid2, self.x_mid1, self.y_mid1,

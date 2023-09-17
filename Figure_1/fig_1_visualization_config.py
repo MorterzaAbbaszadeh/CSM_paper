@@ -193,30 +193,39 @@ class visual_config():
 
     def visualize_ars(self, anim, strt, fini, cut, fps, treat): #db > after get_anim
 
-        _, ax = plt.subplots(2)
+        _, ax = plt.subplots(3)
         main_ar=anim.main_ar()[:cut]
         mean_ar=anim.mean_ar()[:cut]
+        mid_ar=anim.mid2_ar()[:cut]
 
         time=np.linspace(0,cut, cut)/fps
 
         #treat=anim.treatment
         label_loc=[-0.08, 0.5]
-
-        ax[0].plot(time, main_ar, linewidth=0.9, color=self.treatment_colors[treat])
-        ax[0].set_ylabel(r'ar', fontdict=self.label_font)
+        ax[0].plot(time, mid_ar, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[0].set_ylabel(r'mid_ar', fontdict=self.label_font)
         ax[0].yaxis.set_label_coords(label_loc[0], label_loc[1])
         ax[0].set_xlim(strt, fini)
         ax[0].tick_params(bottom=False, top=False, left=True, right=False)
         ax[0].set_xticklabels([])
         sns.despine(top=True, bottom=True, right=True, ax=ax[0])
 
-        ax[1].plot(time, mean_ar, linewidth=0.9, color=self.treatment_colors[treat])
-        ax[1].set_ylabel(r'mean ar', fontdict=self.label_font)
+
+        ax[1].plot(time, main_ar, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[1].set_ylabel(r'ar', fontdict=self.label_font)
         ax[1].yaxis.set_label_coords(label_loc[0], label_loc[1])
         ax[1].set_xlim(strt, fini)
         ax[1].tick_params(bottom=False, top=False, left=True, right=False)
-        ax[1].set_xlabel('Time (sec)', fontdict=self.label_font)
-        sns.despine(top=True, right=True, ax=ax[1])
+        ax[1].set_xticklabels([])
+        sns.despine(top=True, bottom=True, right=True, ax=ax[1])
+
+        ax[2].plot(time, mean_ar, linewidth=0.9, color=self.treatment_colors[treat])
+        ax[2].set_ylabel(r'mean ar', fontdict=self.label_font)
+        ax[2].yaxis.set_label_coords(label_loc[0], label_loc[1])
+        ax[2].set_xlim(strt, fini)
+        ax[2].tick_params(bottom=False, top=False, left=True, right=False)
+        ax[2].set_xlabel('Time (sec)', fontdict=self.label_font)
+        sns.despine(top=True, right=True, ax=ax[2])
 
 
 

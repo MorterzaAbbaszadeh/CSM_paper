@@ -132,7 +132,7 @@ def thet_head_atan(x1,y1,x2,y2,x3,y3,x4,y4):         # 1:mid1, 2:mid_head, 3:rhe
     thet=null_dperiodic(thet_should-thet_head)
     sm_head=np.pad(thet, 50, 'edge')                #pad the signal by its edge
         
-    return sgn.savgol_filter(sm_head, 45, 4)[50:-50]-90
+    return sgn.savgol_filter(sm_head, 45, 4)[50:-50]
 
 
 

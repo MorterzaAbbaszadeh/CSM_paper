@@ -19,20 +19,20 @@ warnings.simplefilter('ignore', category=DeprecationWarning)
 
 
 from dlc_iteration import dlc_db
-n_frames=700
-strt=500
+n_frames=1400
+strt=50
 
 
 
 targs=['LID']
 db=dlc_db()
 db.select_treatment(targets=targs)
-db.get_animal(db.keys[0], '40')
+db.get_animal(db.keys[6], '40')
 print(db.keys)
-print(db.keys[0])
+print(db.keys[6])
 
 
-video_path='/home/morteza/Desktop/per_cont/LID264042160720.mp4'
+video_path='/home/morteza/Desktop/per_cont/LID214042310120.mp4'
 cap = cv2.VideoCapture(video_path)
 cap.set(1, strt)
 
@@ -70,11 +70,11 @@ while i < n_frames:  # video frame by frame
 
 
 animation = camera.animate()
-animation.save('phi_SKF_20_50.mp4', fps=10, dpi=360)
+animation.save('phi_LID_21_40.mp4', fps=20, dpi=360)
 
 
 
-# %% ars 2 axes
+# %% ars 3 axes
 
 fig = plt.figure(figsize=(10, 6))
 #spec2 = gridspec.GridSpec(ncols=5, nrows=5, figure=fig)
@@ -96,14 +96,15 @@ while i < n_frames:  # video frame by frame
 
     ax0 = fig.add_axes([0.45, 0.1, 0.3, 0.1])
     ax1 = fig.add_axes([0.45, 0.4, 0.3, 0.1])
-    [ax0, ax1] = vs_config.visualize_ars([ax0, ax1], db, strt, fini)
+    ax2 = fig.add_axes([0.45, 0.7, 0.3, 0.1])
+    [ax0, ax1, ax2] = vs_config.visualize_ars([ax0, ax1, ax2], db, strt, fini)
     i = i+1
 
     camera.snap()
 
 
 animation = camera.animate()
-animation.save('ar_SKF_20_50.mp4', fps=10, dpi=360)
+animation.save('ar_SUM_14_20.mp4', fps=10, dpi=360)
 
 
 # %% Trans
@@ -136,7 +137,7 @@ while i < n_frames:  # video frame by frame
 
 
 animation = camera.animate()
-animation.save('Tr_SKF_20_50.mp4', fps=10, dpi=360)
+animation.save('Tr_SUM_14_20.mp4', fps=10, dpi=360)
 
 
 # %% Rot speed
@@ -172,7 +173,7 @@ while i < n_frames:  # video frame by frame
 
 
 animation = camera.animate()
-animation.save('rot_speed_SKF_20_50.mp4', fps=10, dpi=360)
+animation.save('rot_speed_SUM_14_20.mp4', fps=10, dpi=360)
 
 
 # %%
